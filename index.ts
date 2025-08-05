@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import {
     setNetwork,
     OmniBridgeAPI,
@@ -8,12 +10,12 @@ import {
 import { ethers } from "ethers";
 
 const config = {
-    BASE_RPC_URL: "https://rpc.ankr.com/eth",
-    BASE_PRIVATE_KEY: "3ff3f4ef5845b2e737328958452197a9611de539495e3663e9eb32794d81b21f",
-    TOKEN_ADDRESS: "0x0000000000000000000000000000000000000000",
-    NEAR_ACCOUNT_ID: "test.testnet",
-    AMOUNT: "1000000000000000000",
-};
+  BASE_RPC_URL: process.env.BASE_RPC_URL,
+  BASE_PRIVATE_KEY:   process.env.PRIVATE_KEY,
+  TOKEN_ADDRESS: process.env.TOKEN_ADDRESS,
+  NEAR_ACCOUNT_ID: process.env.NEAR_ACCOUNT_ID,
+  AMOUNT:        process.env.AMOUNT,
+}
 
 async function main() {
 
