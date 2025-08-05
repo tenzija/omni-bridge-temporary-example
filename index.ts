@@ -6,7 +6,7 @@ import {
     omniTransfer,
     omniAddress,
     ChainKind,
-} from 'omni-bridge-sdk'
+} from 'omni-bridge-sdk';
 import { ethers } from "ethers";
 
 const config = {
