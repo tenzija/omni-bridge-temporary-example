@@ -57,8 +57,8 @@ async function main() {
     const api = new OmniBridgeAPI();
     const fees = await api.getFee(sender, recipient, token);
     console.log("Estimated fees:", {
-        tokenFee: fees.transferred_token_fee.toString(),
-        nativeFee: fees.native_token_fee.toString(),
+        tokenFee: fees.transferred_token_fee?.toString() || 0 as number,
+        nativeFee: fees.native_token_fee?.toString() || 0 as number,
     });
 
     // 5️⃣ Dispatch the bridge tx
@@ -66,14 +66,14 @@ async function main() {
         tokenAddress: token,
         recipient,
         amount: BigInt(AMOUNT),
-        fee: BigInt(fees.transferred_token_fee),
-        nativeFee: BigInt(fees.native_token_fee),
+        fee: BigInt(fees.transferred_token_fee || 0),
+        nativeFee: BigInt(fees.native_token_fee || 0),
     };
 
     console.log("Sending bridge transaction on Base...");
-    const result = await omniTransfer(wallet, transfer);
-    console.log("✅ Bridge tx sent:", result.txHash);
-    console.log("Relayer nonce:", result.nonce);
+    const result = await omniTransfer(wallet as any, transfer) as any;
+    console.log("✅ Bridge tx sent:", result?.txHash || "unknown");
+    console.log("Relayer nonce:", result?.nonce || "unknown");
     console.log(
         "Your tokens are now in flight — relayer will finalize on NEAR shortly.",
     );
