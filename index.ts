@@ -44,9 +44,11 @@ async function main() {
     setNetwork("mainnet"); // or "testnet" if you’re on testnets :contentReference[oaicite:0]{index=0}
 
     // 2️⃣ Setup Base provider & signer
-    const provider = new ethers.providers.JsonRpcProvider(BASE_RPC_URL);
-    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+    const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC_URL!);
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
     const senderAddress = await wallet.getAddress();
+
+    const omniWallet = wallet as any;
 
     // 3️⃣ Prepare Omni addresses
     const sender = omniAddress(ChainKind.Base, senderAddress);
@@ -71,12 +73,14 @@ async function main() {
     };
 
     console.log("Sending bridge transaction on Base...");
-    const result = await omniTransfer(wallet as any, transfer) as any;
-    console.log("✅ Bridge tx sent:", result?.txHash || "unknown");
-    console.log("Relayer nonce:", result?.nonce || "unknown");
-    console.log(
-        "Your tokens are now in flight — relayer will finalize on NEAR shortly.",
-    );
+    const result = await omniTransfer(omniWallet, transfer) as any;
+    if (typeof result === "string") {
+    console.log("✅ Bridge tx sent:", result);
+    console.log("Relayer nonce: (n/a)");
+    } else {
+    console.log("✅ Bridge tx sent:", result.txHash);
+    console.log("Relayer nonce:", result.nonce);
+    }
 }
 
 main().catch((e) => {
