@@ -44,8 +44,8 @@ async function main() {
     setNetwork("mainnet"); // or "testnet" if you’re on testnets :contentReference[oaicite:0]{index=0}
 
     // 2️⃣ Setup Base provider & signer
-    const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC_URL!);
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
+    const provider = new ethers.providers.JsonRpcProvider(BASE_RPC_URL);
+    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
     const senderAddress = await wallet.getAddress();
 
     const omniWallet = wallet as any;
@@ -59,8 +59,8 @@ async function main() {
     const api = new OmniBridgeAPI();
     const fees = await api.getFee(sender, recipient, token);
     console.log("Estimated fees:", {
-        tokenFee: fees.transferred_token_fee?.toString() || 0 as number,
-        nativeFee: fees.native_token_fee?.toString() || 0 as number,
+        tokenFee: fees.transferred_token_fee?.toString() || "0",
+        nativeFee: fees.native_token_fee?.toString() || "0",
     });
 
     // 5️⃣ Dispatch the bridge tx
@@ -68,8 +68,8 @@ async function main() {
         tokenAddress: token,
         recipient,
         amount: BigInt(AMOUNT),
-        fee: BigInt(fees.transferred_token_fee || 0),
-        nativeFee: BigInt(fees.native_token_fee || 0),
+        fee: BigInt(fees.transferred_token_fee || "0"),
+        nativeFee: BigInt(fees.native_token_fee || "0"),
     };
 
     console.log("Sending bridge transaction on Base...");
