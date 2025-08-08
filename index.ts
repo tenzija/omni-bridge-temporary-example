@@ -11,7 +11,7 @@ import { ethers } from "ethers";
 
 const config = {
   BASE_RPC_URL: process.env.BASE_RPC_URL,
-  BASE_PRIVATE_KEY:   process.env.PRIVATE_KEY,
+  PRIVATE_KEY:   process.env.PRIVATE_KEY,
   TOKEN_ADDRESS: process.env.TOKEN_ADDRESS,
   NEAR_ACCOUNT_ID: process.env.NEAR_ACCOUNT_ID,
   AMOUNT:        process.env.AMOUNT,
@@ -21,7 +21,7 @@ async function main() {
 
     const {
         BASE_RPC_URL,
-        BASE_PRIVATE_KEY: PRIVATE_KEY,
+        PRIVATE_KEY,
         TOKEN_ADDRESS,
         NEAR_ACCOUNT_ID,
         AMOUNT,
